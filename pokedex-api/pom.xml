@@ -19,6 +19,7 @@
         <dropwizard.version>2.0.25</dropwizard.version>
         <lombok.version>1.18.16</lombok.version>
         <jersey-media-json-jackson.version>2.25.1</jersey-media-json-jackson.version>
+        <guice.version>5.0.1</guice.version>
         <mainClass>com.pokedex.MainApplication</mainClass>
     </properties>
 
@@ -64,6 +65,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
         </dependency>
     </dependencies>
 

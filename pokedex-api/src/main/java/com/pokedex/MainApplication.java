@@ -1,5 +1,7 @@
 package com.pokedex;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.pokedex.resources.PokemonResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -23,7 +25,9 @@ public class MainApplication extends Application<MainConfiguration> {
 
     @Override
     public void run(final MainConfiguration configuration, final Environment environment) {
+        Injector guiceInjector = Guice.createInjector(new PokemonApiModule());
         environment.jersey().register(PokemonResource.class);
+        environment.jersey().register(guiceInjector.getInstance(PokemonResource.class));
     }
 
 }
