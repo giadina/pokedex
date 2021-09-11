@@ -1,6 +1,6 @@
 package com.pokedex.resources;
 
-import com.pokedex.models.entities.PokemonInfo;
+import com.pokedex.models.responses.PokemonInfoResponse;
 import com.pokedex.services.PokemonApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +24,10 @@ public class PokemonResource {
     @GET
     @Path("/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PokemonInfo retrieveBasicPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
+    public PokemonInfoResponse retrieveBasicPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 
         logger.info("Calling /pokemon with pokemon name: {}", pokemonName);
-        PokemonInfo pokemonInfo = pokemonApi.getPokemonInfo(pokemonName);
+        PokemonInfoResponse pokemonInfo = pokemonApi.getPokemonInfo(pokemonName);
         if(pokemonInfo != null) {
             return pokemonInfo;
         }
@@ -40,10 +40,10 @@ public class PokemonResource {
     @GET
     @Path("/translated/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PokemonInfo retrieveTranslatedPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
+    public PokemonInfoResponse retrieveTranslatedPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 
         logger.info("Calling /pokemon/translated with pokemon name: {}", pokemonName);
-        PokemonInfo pokemonInfo = pokemonApi.getTranslatedPokemonInfo(pokemonName);
+        PokemonInfoResponse pokemonInfo = pokemonApi.getTranslatedPokemonInfo(pokemonName);
         if(pokemonInfo != null) {
             return pokemonInfo;
         }

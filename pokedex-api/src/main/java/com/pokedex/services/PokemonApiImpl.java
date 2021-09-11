@@ -4,8 +4,11 @@ import com.pokedex.client.PokemonApiClient;
 import com.pokedex.client.ShakespeareTranslatorClient;
 import com.pokedex.client.YodaTranslatorClient;
 import com.pokedex.models.entities.PokemonInfo;
+import com.pokedex.models.responses.PokemonInfoResponse;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
+
 
 public class PokemonApiImpl implements PokemonApi {
     private final PokemonApiClient pokemonApiClient;
@@ -23,30 +26,53 @@ public class PokemonApiImpl implements PokemonApi {
 
 
     @Override
-    public PokemonInfo getPokemonInfo(String pokemonName) {
+    public PokemonInfoResponse getPokemonInfo(String pokemonName) {
         PokemonInfo pokemonInfo = pokemonApiClient.getPokemon(pokemonName);
+
         if(pokemonInfo != null) {
-            return pokemonInfo;
+            PokemonInfoResponse response = mapPokemonInfoToResponseInfo(pokemonInfo);
+            return response;
         }
 
         return null;
     }
 
+
     @Override
-    public PokemonInfo getTranslatedPokemonInfo(String pokemonName) {
-        PokemonInfo pokemonInfo = pokemonApiClient.getPokemon(pokemonName);
+    public PokemonInfoResponse getTranslatedPokemonInfo(String pokemonName) {
+        PokemonInfoResponse pokemonInfo = getPokemonInfo(pokemonName);
 
         if(pokemonInfo != null) {
-            String habitatName = pokemonInfo.getHabitat().getName().toLowerCase();
-            String description = pokemonInfo.getHabitat();
+            String habitatName = pokemonInfo.getHabitat().toLowerCase();
+            String description = pokemonInfo.getDescription();
+            String translation = description;
+            Response response;
 
             if(habitatName.equals("cave") || pokemonInfo.isLegendary()) {
-                yodaTranslator.getYodaTranslation(description);
+                response = yodaTranslator.getYodaTranslation(description);
+                if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
+                    translation = response.getEntity().toString();
+                }
             } else {
-                shakespeareTranslator.getShakespeareTranslation(description);
+                response = shakespeareTranslator.getShakespeareTranslation(description);
+                if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
+                    translation = response.getEntity().toString();
+                }
             }
+            pokemonInfo.setDescription(translation);
             return pokemonInfo;
         }
         return null;
+    }
+
+    private PokemonInfoResponse mapPokemonInfoToResponseInfo(PokemonInfo pokemonInfo) {
+        String description = pokemonInfo.getEnglishDescription(pokemonInfo.getFlavorTextEntries());
+
+        return new PokemonInfoResponse(
+                pokemonInfo.getName(),
+                pokemonInfo.isLegendary(),
+                pokemonInfo.getHabitat().getName(),
+                description
+        );
     }
 }

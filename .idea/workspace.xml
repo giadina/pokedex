@@ -5,8 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e2eda6c-9a8d-4e7e-be7d-10b77af9ff95" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pokedex-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pokedex-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pokedex-api/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/pokedex-api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pokedex-api/pokedex-api.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/models/Habitat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/models/Pokemon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/models/PokemonSpeciesFlavorText.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/resources/PokemonResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/resources/PokemonResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/services/PokemonApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/services/PokemonApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/services/PokemonApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/pokedex-api/src/main/java/com/pokedex/services/PokemonApiImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,9 +43,13 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.pokedex.models.entities" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -45,6 +57,26 @@
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/pokedex" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.pokedex.MainApplication" />
+      <module name="pokedex-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pokedex.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

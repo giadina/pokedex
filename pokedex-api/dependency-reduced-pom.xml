@@ -124,9 +124,12 @@
     </dependencies>
   </dependencyManagement>
   <properties>
+    <guice.version>5.0.1</guice.version>
+    <jersey-media-json-jackson.version>2.25.1</jersey-media-json-jackson.version>
     <dropwizard.version>2.0.25</dropwizard.version>
     <mainClass>com.pokedex.MainApplication</mainClass>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <lombok.version>1.18.16</lombok.version>
   </properties>
 </project>
