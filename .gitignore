@@ -1,0 +1,12 @@
+# Java class files
+target/
+
+# Maven generated files
+dependency-reduced-pom.xml
+
+# IntellIJ configurations
+.idea
+*.iml
+
+# MAC OSX folder
+.DS_Store
