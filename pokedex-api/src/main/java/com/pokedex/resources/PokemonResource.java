@@ -1,6 +1,6 @@
 package com.pokedex.resources;
 
-import com.pokedex.models.Pokemon;
+import com.pokedex.models.entities.PokemonInfo;
 import com.pokedex.services.PokemonApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Optional;
+import javax.ws.rs.core.Response;
 
 
 @Path("/pokemon")
@@ -24,30 +24,32 @@ public class PokemonResource {
     @GET
     @Path("/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String retrieveBasicPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
-        try {
-            logger.info("Calling /pokemon with pokemon name: {}", pokemonName);
-            Optional<Pokemon> pokemon = pokemonApi.getPokemonInfo(pokemonName);
-            return "hello";
-        } catch (Exception e) {
-            logger.warn("The provided Pokemon name doesn't exist");
-            return "The provided Pokemon name doesn't exist";
+    public PokemonInfo retrieveBasicPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
+
+        logger.info("Calling /pokemon with pokemon name: {}", pokemonName);
+        PokemonInfo pokemonInfo = pokemonApi.getPokemonInfo(pokemonName);
+        if(pokemonInfo != null) {
+            return pokemonInfo;
         }
+
+        logger.warn("The provided Pokemon doesn't exist");
+        throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
 
 
     @GET
     @Path("/translated/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String retrieveTranslatedPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
-        try {
-            logger.info("Calling /pokemon/translated with pokemon name: {}", pokemonName);
-            Optional<Pokemon> pokemon = pokemonApi.getTranslatedPokemonInfo(pokemonName);
-            return "hello";
-        } catch (Exception e){
-            logger.warn("The provided Pokemon name doesn't exist");
-            return "The provided Pokemon name doesn't exist";
+    public PokemonInfo retrieveTranslatedPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
+
+        logger.info("Calling /pokemon/translated with pokemon name: {}", pokemonName);
+        PokemonInfo pokemonInfo = pokemonApi.getTranslatedPokemonInfo(pokemonName);
+        if(pokemonInfo != null) {
+            return pokemonInfo;
         }
+
+        logger.warn("The provided Pokemon doesn't exist");
+        throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
 
 }
