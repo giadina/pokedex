@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 
 
 @Path("/pokemon")
-// Add swagger annotation in pom as well
 @Produces(MediaType.APPLICATION_JSON)
 @Singleton
 public class PokemonResource {

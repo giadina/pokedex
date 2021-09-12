@@ -43,26 +43,28 @@ public class PokemonApiImpl implements PokemonApi {
         PokemonInfoResponse pokemonInfo = getPokemonInfo(pokemonName);
 
         if(pokemonInfo != null) {
-            String habitatName = pokemonInfo.getHabitat().toLowerCase();
-            String description = pokemonInfo.getDescription();
-            String translation = description;
-            Response response;
-
-            if(habitatName.equals("cave") || pokemonInfo.isLegendary()) {
-                response = yodaTranslator.getYodaTranslation(description);
-                if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
-                    translation = response.getEntity().toString();
-                }
-            } else {
-                response = shakespeareTranslator.getShakespeareTranslation(description);
-                if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
-                    translation = response.getEntity().toString();
-                }
-            }
+            String translation = computeTranslation(pokemonInfo);
             pokemonInfo.setDescription(translation);
             return pokemonInfo;
         }
         return null;
+    }
+
+    private String computeTranslation(PokemonInfoResponse pokemonInfo) {
+        String habitatName = pokemonInfo.getHabitat().toLowerCase();
+        String description = pokemonInfo.getDescription();
+        String translation = description;
+        Response response;
+
+        if(habitatName.equals("cave") || pokemonInfo.isLegendary()) {
+            response = yodaTranslator.getYodaTranslation(description);
+        } else {
+            response = shakespeareTranslator.getShakespeareTranslation(description);
+        }
+        if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
+            translation = response.getEntity().toString();
+        }
+        return translation;
     }
 
     private PokemonInfoResponse mapPokemonInfoToResponseInfo(PokemonInfo pokemonInfo) {

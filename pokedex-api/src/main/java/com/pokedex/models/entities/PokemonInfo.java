@@ -1,8 +1,7 @@
 package com.pokedex.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pokedex.models.entities.FlavorText;
-import com.pokedex.models.entities.NamedApiResource;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.List;
@@ -12,8 +11,10 @@ import java.util.List;
 public class PokemonInfo {
     private int id;
     private String name;
+    @JsonProperty("is_legendary")
     private boolean isLegendary;
     private NamedApiResource habitat;
+    @JsonProperty("flavor_text_entries")
     private List<FlavorText> flavorTextEntries;
 
 
@@ -23,7 +24,9 @@ public class PokemonInfo {
                 .findAny()
                 .orElseGet(() -> getRandomFlavorText(flavorTexts));
 
-        if(flavorText.getFlavor_text() != null) return flavorText.getFlavor_text();
+        if(flavorText.getFlavorText() != null) {
+            return flavorText.getFlavorText().replaceAll("(\\r|\\n|\\f)+", " ");
+        };
         return null;
     }
 
