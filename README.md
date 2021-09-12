@@ -19,7 +19,18 @@ How to start the Pokedex REST API service application
 3. Run `mvn clean install` to build your application
 4. Start application with `java -jar target/pokedex-api-1.0.0.jar server config.yml`
 5. Run `http://localhost:8080/pokemon/tangela` or the other endpoint provided in `PokemonResource.java`
-6. To see your applications health enter url `http://localhost:8081/healthcheck`
+6. To see your application health enter url `http://localhost:8081/healthcheck`
+
+### Docker
+
+The application can be dockerized also. If you want to run it this way, you will need docker running on your laptop.
+1. `cd pokedex-api`
+2. build the image running `docker build -t pokedex-api .`
+3. run the image with `docker run –p 8080:8080 xxxx`, where xxx=container_id generated from step 1 or the image tag
+(pokedex-api in this case)
+4. test the application calling the container ip and port 8080. You can look for the host ip with
+`docker exec container_id cat /etc/hosts`.
+
 
 Project Structure
 ---
