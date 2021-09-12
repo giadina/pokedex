@@ -32,3 +32,15 @@ The project is organized following this structure:
 - **health**: Health Checks
 - **MainApplication**: The application class.
 - **MainConfiguration**: The configuration class.
+
+Swagger
+---
+
+The endpoints are documented using Swagger.  
+You can check it here: `http://localhost:8080/swagger.json`
+
+If you want to play with them use [Swagger UI](http://localhost:8080/swagger-ui/):
+- in the search box type `/swagger.json`
+- you will see the two available endpoints (e.g. `http://localhost:8080/swagger-ui/#/pokemon/retrieveBasicPokemonInfo`)
+
+If you want to download the yaml file go to `http://localhost:8080/swagger.yaml`

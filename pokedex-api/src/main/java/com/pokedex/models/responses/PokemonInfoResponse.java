@@ -1,11 +1,13 @@
 package com.pokedex.models.responses;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
+@ApiModel(description = "Pokemon Info Model.")
 public class PokemonInfoResponse {
     private String name;
     private boolean isLegendary;

@@ -2,6 +2,8 @@ package com.pokedex.resources;
 
 import com.pokedex.models.responses.PokemonInfoResponse;
 import com.pokedex.services.PokemonApi;
+import io.swagger.annotations.*;
+import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,8 @@ import javax.ws.rs.core.Response;
 
 
 @Path("/pokemon")
+@Api("/pokemon")
+@SwaggerDefinition(tags = { @Tag(name = "Pokemon", description = "Pokemon Resource") })
 @Produces(MediaType.APPLICATION_JSON)
 @Singleton
 public class PokemonResource {
@@ -23,6 +27,9 @@ public class PokemonResource {
     @GET
     @Path("/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Retrieve basic pokemon information", response = PokemonInfoResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = HttpStatus.OK_200, message = "Basic Info Successfully Returned", response = PokemonInfoResponse.class),
+            @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "Basic Info Not Found for this Pokemon")})
     public PokemonInfoResponse retrieveBasicPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 
         logger.info("Calling /pokemon with pokemon name: {}", pokemonName);
@@ -39,6 +46,9 @@ public class PokemonResource {
     @GET
     @Path("/translated/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Retrieve translated pokemon information", response = PokemonInfoResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = HttpStatus.OK_200, message = "Translated Info Successfully Returned", response = PokemonInfoResponse.class),
+            @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "Translated Info Not Found for this Pokemon")})
     public PokemonInfoResponse retrieveTranslatedPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 
         logger.info("Calling /pokemon/translated with pokemon name: {}", pokemonName);
