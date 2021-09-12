@@ -18,7 +18,9 @@ public class PokemonInfo {
     private List<FlavorText> flavorTextEntries;
 
 
-    public String getEnglishDescription(List<FlavorText> flavorTexts) {
+    // This function will return an English Description if it exists,
+    // otherwise it will return a random one. If none are present, it will return null object
+    public String getPokemonDescription(List<FlavorText> flavorTexts) {
         FlavorText flavorText = flavorTexts.stream()
                 .filter(text -> "en".equals(text.getLanguage().getName()))
                 .findAny()

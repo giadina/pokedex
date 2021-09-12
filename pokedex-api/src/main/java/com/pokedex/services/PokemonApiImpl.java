@@ -55,7 +55,6 @@ public class PokemonApiImpl implements PokemonApi {
         String description = pokemonInfo.getDescription();
         String translation = description;
         Response response;
-
         if(habitatName.equals("cave") || pokemonInfo.isLegendary()) {
             response = yodaTranslator.getYodaTranslation(description);
         } else {
@@ -68,7 +67,7 @@ public class PokemonApiImpl implements PokemonApi {
     }
 
     private PokemonInfoResponse mapPokemonInfoToResponseInfo(PokemonInfo pokemonInfo) {
-        String description = pokemonInfo.getEnglishDescription(pokemonInfo.getFlavorTextEntries());
+        String description = pokemonInfo.getPokemonDescription(pokemonInfo.getFlavorTextEntries());
 
         return new PokemonInfoResponse(
                 pokemonInfo.getName(),

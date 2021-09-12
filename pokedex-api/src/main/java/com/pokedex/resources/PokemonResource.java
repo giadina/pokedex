@@ -38,7 +38,7 @@ public class PokemonResource {
             return pokemonInfo;
         }
 
-        logger.warn("The provided Pokemon doesn't exist");
+        logger.info("The provided Pokemon doesn't exist");
         throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
 
@@ -57,7 +57,7 @@ public class PokemonResource {
             return pokemonInfo;
         }
 
-        logger.warn("The provided Pokemon doesn't exist");
+        logger.info("The provided Pokemon doesn't exist");
         throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
 
