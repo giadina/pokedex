@@ -1,5 +1,7 @@
 package com.pokedex.client;
 
+import com.pokedex.models.entities.Payload;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -14,7 +16,8 @@ public class ShakespeareTranslatorClient {
     private Client client = ClientBuilder.newClient();
 
     public Response getShakespeareTranslation(String text) {
-        return client.target(URI).queryParam("text", text).request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(text, MediaType.APPLICATION_JSON));
+        Payload payload = new Payload(text);
+        return client.target(URI).request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(payload, MediaType.APPLICATION_JSON));
     }
 }

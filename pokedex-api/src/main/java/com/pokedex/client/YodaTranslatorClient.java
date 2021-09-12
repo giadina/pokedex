@@ -1,5 +1,6 @@
 package com.pokedex.client;
 
+import com.pokedex.models.entities.Payload;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -12,7 +13,8 @@ public class YodaTranslatorClient {
     private Client client = ClientBuilder.newClient();
 
     public Response getYodaTranslation(String text) {
-        return client.target(URI).queryParam("text", text).request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(text, MediaType.APPLICATION_JSON));
+        Payload payload = new Payload(text);
+        return client.target(URI).request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(payload, MediaType.APPLICATION_JSON));
     }
 }
