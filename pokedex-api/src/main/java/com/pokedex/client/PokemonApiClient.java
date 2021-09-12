@@ -6,6 +6,8 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 
+// This class is responsible for fetching Pokemon information data from
+// "https://pokeapi.co/api/v2/pokemon-species/" endpoint
 public class PokemonApiClient {
     private static final String URI = Constants.POKEMON_URL;
 
