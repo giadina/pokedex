@@ -2,6 +2,7 @@ package com.pokedex.resources;
 
 import com.pokedex.models.responses.PokemonInfoResponse;
 import com.pokedex.services.PokemonApi;
+import io.dropwizard.jersey.caching.CacheControl;
 import io.swagger.annotations.*;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.TimeUnit;
 
 
 @Path("/pokemon")
@@ -27,6 +29,7 @@ public class PokemonResource {
     @GET
     @Path("/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
+    @CacheControl(maxAge = 6, maxAgeUnit = TimeUnit.HOURS)
     @ApiOperation(value = "Retrieve basic pokemon information", response = PokemonInfoResponse.class)
     @ApiResponses(value = {@ApiResponse(code = HttpStatus.OK_200, message = "Basic Info Successfully Returned", response = PokemonInfoResponse.class),
             @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "Basic Info Not Found for this Pokemon")})
@@ -46,6 +49,7 @@ public class PokemonResource {
     @GET
     @Path("/translated/{pokemon_name}")
     @Produces(MediaType.APPLICATION_JSON)
+    @CacheControl(maxAge = 6, maxAgeUnit = TimeUnit.HOURS)
     @ApiOperation(value = "Retrieve translated pokemon information", response = PokemonInfoResponse.class)
     @ApiResponses(value = {@ApiResponse(code = HttpStatus.OK_200, message = "Translated Info Successfully Returned", response = PokemonInfoResponse.class),
             @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "Translated Info Not Found for this Pokemon")})

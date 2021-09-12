@@ -7,7 +7,9 @@ import com.pokedex.models.entities.PokemonInfo;
 import com.pokedex.models.responses.PokemonInfoResponse;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 
 
 public class PokemonApiImpl implements PokemonApi {
@@ -60,8 +62,10 @@ public class PokemonApiImpl implements PokemonApi {
         } else {
             response = shakespeareTranslator.getShakespeareTranslation(description);
         }
+
         if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
-            translation = response.getEntity().toString();
+            Map<String, Map<String, Object>> json = response.readEntity(new GenericType<Map<String, Map<String, Object>>>() {});
+            translation = json.get("contents").get("translated").toString();
         }
         return translation;
     }
