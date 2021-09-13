@@ -1,5 +1,7 @@
 package com.pokedex.resources;
 
+import com.codahale.metrics.annotation.ResponseMetered;
+import com.codahale.metrics.annotation.Timed;
 import com.pokedex.models.responses.PokemonInfoResponse;
 import com.pokedex.services.PokemonApi;
 import io.dropwizard.jersey.caching.CacheControl;
@@ -28,10 +30,12 @@ public class PokemonResource {
 
     @GET
     @Path("/{pokemon_name}")
-    @Produces(MediaType.APPLICATION_JSON)
     @CacheControl(maxAge = 6, maxAgeUnit = TimeUnit.HOURS)
+    @Timed(name = "pokedex_api.pokemon_info.basic.metrics")
+    @ResponseMetered(name = "pokedex_api.pokemon_info.basic.http_responses")
     @ApiOperation(value = "Retrieve basic pokemon information", response = PokemonInfoResponse.class)
-    @ApiResponses(value = {@ApiResponse(code = HttpStatus.OK_200, message = "Basic Info Successfully Returned", response = PokemonInfoResponse.class),
+    @ApiResponses(value =
+            {@ApiResponse(code = HttpStatus.OK_200, message = "Basic Info Successfully Returned", response = PokemonInfoResponse.class),
             @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "Basic Info Not Found for this Pokemon")})
     public PokemonInfoResponse retrieveBasicPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 
@@ -48,10 +52,12 @@ public class PokemonResource {
 
     @GET
     @Path("/translated/{pokemon_name}")
-    @Produces(MediaType.APPLICATION_JSON)
     @CacheControl(maxAge = 6, maxAgeUnit = TimeUnit.HOURS)
+    @Timed(name = "pokedex_api.pokemon_info.translated.metrics")
+    @ResponseMetered(name = "pokedex_api.pokemon_info.translated.http_responses")
     @ApiOperation(value = "Retrieve translated pokemon information", response = PokemonInfoResponse.class)
-    @ApiResponses(value = {@ApiResponse(code = HttpStatus.OK_200, message = "Translated Info Successfully Returned", response = PokemonInfoResponse.class),
+    @ApiResponses(value =
+            {@ApiResponse(code = HttpStatus.OK_200, message = "Translated Info Successfully Returned", response = PokemonInfoResponse.class),
             @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "Translated Info Not Found for this Pokemon")})
     public PokemonInfoResponse retrieveTranslatedPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 

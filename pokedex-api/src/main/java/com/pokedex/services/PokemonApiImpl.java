@@ -1,9 +1,10 @@
 package com.pokedex.services;
 
+import com.pokedex.client.Constants;
 import com.pokedex.client.PokemonApiClient;
-import com.pokedex.client.ShakespeareTranslatorClient;
-import com.pokedex.client.YodaTranslatorClient;
 import com.pokedex.models.entities.PokemonInfo;
+import com.pokedex.models.entities.Translator;
+import com.pokedex.models.entities.TranslatorFactory;
 import com.pokedex.models.responses.PokemonInfoResponse;
 
 import javax.inject.Inject;
@@ -14,18 +15,11 @@ import java.util.Map;
 
 public class PokemonApiImpl implements PokemonApi {
     private final PokemonApiClient pokemonApiClient;
-    private final ShakespeareTranslatorClient shakespeareTranslator;
-    private final YodaTranslatorClient yodaTranslator;
 
     @Inject
-    public PokemonApiImpl(PokemonApiClient pokemonApiClient,
-                          ShakespeareTranslatorClient shakespeareTranslator,
-                          YodaTranslatorClient yodaTranslator) {
+    public PokemonApiImpl(PokemonApiClient pokemonApiClient) {
         this.pokemonApiClient = pokemonApiClient;
-        this.shakespeareTranslator = shakespeareTranslator;
-        this.yodaTranslator = yodaTranslator;
     }
-
 
     @Override
     public PokemonInfoResponse getPokemonInfo(String pokemonName) {
@@ -57,12 +51,15 @@ public class PokemonApiImpl implements PokemonApi {
         String description = pokemonInfo.getDescription();
         String translation = description;
         Response response;
+        Translator translator;
+
         if(habitatName.equals("cave") || pokemonInfo.isLegendary()) {
-            response = yodaTranslator.getYodaTranslation(description);
+            translator = TranslatorFactory.getTranslator(Constants.YODA_TRANSLATOR_NAME);
         } else {
-            response = shakespeareTranslator.getShakespeareTranslation(description);
+            translator = TranslatorFactory.getTranslator(Constants.SHAKESPEARE_TRANSLATOR_NAME);
         }
 
+        response = translator.getTranslation(description);
         if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
             Map<String, Map<String, Object>> json = response.readEntity(new GenericType<Map<String, Map<String, Object>>>() {});
             translation = json.get("contents").get("translated").toString();
