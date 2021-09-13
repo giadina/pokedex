@@ -2,11 +2,11 @@ package com.pokedex.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PokemonInfo {
     private int id;
