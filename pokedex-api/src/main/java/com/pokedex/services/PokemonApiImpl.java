@@ -8,10 +8,6 @@ import com.pokedex.models.entities.TranslatorFactory;
 import com.pokedex.models.responses.PokemonInfoResponse;
 
 import javax.inject.Inject;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-import java.util.Map;
-
 
 public class PokemonApiImpl implements PokemonApi {
     private final PokemonApiClient pokemonApiClient;
@@ -26,8 +22,7 @@ public class PokemonApiImpl implements PokemonApi {
         PokemonInfo pokemonInfo = pokemonApiClient.getPokemon(pokemonName);
 
         if(pokemonInfo != null) {
-            PokemonInfoResponse response = mapPokemonInfoToResponseInfo(pokemonInfo);
-            return response;
+            return mapPokemonInfoToResponseInfo(pokemonInfo);
         }
 
         return null;
@@ -49,8 +44,6 @@ public class PokemonApiImpl implements PokemonApi {
     private String computeTranslation(PokemonInfoResponse pokemonInfo) {
         String habitatName = pokemonInfo.getHabitat().toLowerCase();
         String description = pokemonInfo.getDescription();
-        String translation = description;
-        Response response;
         Translator translator;
 
         if(habitatName.equals("cave") || pokemonInfo.isLegendary()) {
@@ -59,12 +52,7 @@ public class PokemonApiImpl implements PokemonApi {
             translator = TranslatorFactory.getTranslator(Constants.SHAKESPEARE_TRANSLATOR_NAME);
         }
 
-        response = translator.getTranslation(description);
-        if(response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
-            Map<String, Map<String, Object>> json = response.readEntity(new GenericType<Map<String, Map<String, Object>>>() {});
-            translation = json.get("contents").get("translated").toString();
-        }
-        return translation;
+        return translator.getTranslation(description);
     }
 
     private PokemonInfoResponse mapPokemonInfoToResponseInfo(PokemonInfo pokemonInfo) {

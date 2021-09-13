@@ -4,5 +4,5 @@ import javax.ws.rs.core.Response;
 
 public interface Translator {
 
-    Response getTranslation(String description);
+    String getTranslation(String description);
 }
