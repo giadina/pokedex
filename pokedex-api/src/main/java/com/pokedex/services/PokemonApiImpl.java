@@ -8,6 +8,7 @@ import com.pokedex.models.entities.TranslatorFactory;
 import com.pokedex.models.responses.PokemonInfoResponse;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 public class PokemonApiImpl implements PokemonApi {
     private final PokemonApiClient pokemonApiClient;
@@ -18,27 +19,22 @@ public class PokemonApiImpl implements PokemonApi {
     }
 
     @Override
-    public PokemonInfoResponse getPokemonInfo(String pokemonName) {
+    public Optional<PokemonInfoResponse> getPokemonInfo(String pokemonName) {
         PokemonInfo pokemonInfo = pokemonApiClient.getPokemon(pokemonName);
-
-        if(pokemonInfo != null) {
-            return mapPokemonInfoToResponseInfo(pokemonInfo);
-        }
-
-        return null;
+        return mapPokemonInfoToResponseInfo(pokemonInfo);
     }
 
 
     @Override
-    public PokemonInfoResponse getTranslatedPokemonInfo(String pokemonName) {
-        PokemonInfoResponse pokemonInfo = getPokemonInfo(pokemonName);
+    public Optional<PokemonInfoResponse> getTranslatedPokemonInfo(String pokemonName) {
+        Optional<PokemonInfoResponse> pokemonInfo = getPokemonInfo(pokemonName);
 
-        if(pokemonInfo != null) {
-            String translation = computeTranslation(pokemonInfo);
-            pokemonInfo.setDescription(translation);
+        if(pokemonInfo.isPresent()) {
+            String translation = computeTranslation(pokemonInfo.get());
+            pokemonInfo.get().setDescription(translation);
             return pokemonInfo;
         }
-        return null;
+        return Optional.empty();
     }
 
     private String computeTranslation(PokemonInfoResponse pokemonInfo) {
@@ -55,14 +51,15 @@ public class PokemonApiImpl implements PokemonApi {
         return translator.getTranslation(description);
     }
 
-    private PokemonInfoResponse mapPokemonInfoToResponseInfo(PokemonInfo pokemonInfo) {
-        String description = pokemonInfo.getPokemonDescription(pokemonInfo.getFlavorTextEntries());
+    private Optional<PokemonInfoResponse> mapPokemonInfoToResponseInfo(PokemonInfo pokemonInfo) {
+        if(pokemonInfo == null) return Optional.empty();
 
-        return new PokemonInfoResponse(
+        String description = pokemonInfo.getPokemonDescription(pokemonInfo.getFlavorTextEntries());
+        return Optional.of(new PokemonInfoResponse(
                 pokemonInfo.getName(),
                 pokemonInfo.isLegendary(),
                 pokemonInfo.getHabitat().getName(),
                 description
-        );
+        ));
     }
 }

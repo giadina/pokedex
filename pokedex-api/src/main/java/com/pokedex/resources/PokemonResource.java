@@ -15,7 +15,6 @@ import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.concurrent.TimeUnit;
 
 
@@ -40,13 +39,8 @@ public class PokemonResource {
     public PokemonInfoResponse retrieveBasicPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 
         logger.info("Calling /pokemon with pokemon name: {}", pokemonName);
-        PokemonInfoResponse pokemonInfo = pokemonApi.getPokemonInfo(pokemonName);
-        if(pokemonInfo != null) {
-            return pokemonInfo;
-        }
-
-        logger.info("The provided Pokemon doesn't exist");
-        throw new WebApplicationException(Response.Status.NOT_FOUND);
+        return pokemonApi.getPokemonInfo(pokemonName)
+                .orElseThrow(() -> new NotFoundException("The provided Pokemon doesn't exist"));
     }
 
 
@@ -62,13 +56,8 @@ public class PokemonResource {
     public PokemonInfoResponse retrieveTranslatedPokemonInfo(@NotNull @PathParam("pokemon_name") String pokemonName) {
 
         logger.info("Calling /pokemon/translated with pokemon name: {}", pokemonName);
-        PokemonInfoResponse pokemonInfo = pokemonApi.getTranslatedPokemonInfo(pokemonName);
-        if(pokemonInfo != null) {
-            return pokemonInfo;
-        }
-
-        logger.info("The provided Pokemon doesn't exist");
-        throw new WebApplicationException(Response.Status.NOT_FOUND);
+        return pokemonApi.getTranslatedPokemonInfo(pokemonName)
+                .orElseThrow(() -> new NotFoundException("The provided Pokemon doesn't exist"));
     }
 
 }

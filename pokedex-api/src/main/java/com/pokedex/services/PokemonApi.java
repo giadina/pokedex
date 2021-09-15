@@ -2,9 +2,11 @@ package com.pokedex.services;
 
 import com.pokedex.models.responses.PokemonInfoResponse;
 
+import java.util.Optional;
+
 public interface PokemonApi {
 
-    PokemonInfoResponse getPokemonInfo(String pokemonName);
+    Optional<PokemonInfoResponse> getPokemonInfo(String pokemonName);
 
-    PokemonInfoResponse getTranslatedPokemonInfo(String pokemonName);
+    Optional<PokemonInfoResponse> getTranslatedPokemonInfo(String pokemonName);
 }
