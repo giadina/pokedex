@@ -21,6 +21,9 @@
         <jersey-media-json-jackson.version>2.25.1</jersey-media-json-jackson.version>
         <guice.version>5.0.1</guice.version>
         <swagger-jaxrs.version>1.6.2</swagger-jaxrs.version>
+        <metrics.version>4.2.0</metrics.version>
+        <metrics-aspectj.version>1.2.0</metrics-aspectj.version>
+        <mockito.version>1.10.19</mockito.version>
         <mainClass>com.pokedex.MainApplication</mainClass>
     </properties>
 
@@ -81,6 +84,32 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jaxrs</artifactId>
             <version>${swagger-jaxrs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>${metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.astefanutti.metrics.aspectj</groupId>
+            <artifactId>metrics-aspectj</artifactId>
+            <version>${metrics-aspectj.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.astefanutti.metrics.aspectj</groupId>
+            <artifactId>metrics-aspectj-deps</artifactId>
+            <version>${metrics-aspectj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlets</artifactId>
+            <version>${metrics.version}</version>
         </dependency>
     </dependencies>
 
@@ -250,6 +279,29 @@
                                 </resource>
                             </resources>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.8</version>
+                <configuration>
+                    <complianceLevel>1.8</complianceLevel>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>io.astefanutti.metrics.aspectj</groupId>
+                            <artifactId>metrics-aspectj</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

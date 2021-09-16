@@ -1,5 +1,8 @@
 package com.pokedex;
 
+import com.codahale.metrics.ConsoleReporter;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.SharedMetricRegistries;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.pokedex.models.entities.TranslatorFactory;
@@ -13,6 +16,9 @@ import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.config.DefaultJaxrsScanner;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+
+import java.io.PrintStream;
+import java.util.concurrent.TimeUnit;
 
 public class MainApplication extends Application<MainConfiguration> {
 
@@ -40,6 +46,7 @@ public class MainApplication extends Application<MainConfiguration> {
         environment.jersey().register(guiceInjector.getInstance(PokemonResource.class));
         this.initSwagger(configuration, environment);
         TranslatorFactory.setGuiceInjector(guiceInjector);
+        this.startReport(environment.metrics());
     }
 
     private void initSwagger(MainConfiguration configuration, Environment environment) {
@@ -60,6 +67,17 @@ public class MainApplication extends Application<MainConfiguration> {
         beanConfig.setDescription("Pokedex api specification");
         beanConfig.setResourcePackage(PokemonResource.class.getPackage().getName());
         beanConfig.setScan(true);
+    }
+
+    private void startReport(MetricRegistry metricRegistry) {
+        SharedMetricRegistries.add("pokemonResourceRegistry", metricRegistry);
+
+        ConsoleReporter reporter = ConsoleReporter.forRegistry(metricRegistry)
+                .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .outputTo(new PrintStream(System.out))
+                .build();
+        reporter.start(1, TimeUnit.MINUTES);
     }
 }
 

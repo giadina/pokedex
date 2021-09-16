@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.ResponseMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.pokedex.models.responses.PokemonInfoResponse;
 import com.pokedex.services.PokemonApi;
+import io.astefanutti.metrics.aspectj.Metrics;
 import io.dropwizard.jersey.caching.CacheControl;
 import io.swagger.annotations.*;
 import org.eclipse.jetty.http.HttpStatus;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Api("/pokemon")
 @SwaggerDefinition(tags = { @Tag(name = "Pokemon", description = "Pokemon Resource") })
 @Produces(MediaType.APPLICATION_JSON)
+@Metrics(registry = "pokemonResourceRegistry")
 @Singleton
 public class PokemonResource {
     private static final Logger logger = LoggerFactory.getLogger(PokemonResource.class);
@@ -30,8 +32,8 @@ public class PokemonResource {
     @GET
     @Path("/{pokemon_name}")
     @CacheControl(maxAge = 6, maxAgeUnit = TimeUnit.HOURS)
-    @Timed(name = "pokedex_api.pokemon_info.basic.metrics")
-    @ResponseMetered(name = "pokedex_api.pokemon_info.basic.http_responses")
+    @Timed(name = "pokemon_info.basic.metrics")
+    @ResponseMetered(name = "pokemon_info.basic.http_responses")
     @ApiOperation(value = "Retrieve basic pokemon information", response = PokemonInfoResponse.class)
     @ApiResponses(value =
             {@ApiResponse(code = HttpStatus.OK_200, message = "Basic Info Successfully Returned", response = PokemonInfoResponse.class),
@@ -47,8 +49,8 @@ public class PokemonResource {
     @GET
     @Path("/translated/{pokemon_name}")
     @CacheControl(maxAge = 6, maxAgeUnit = TimeUnit.HOURS)
-    @Timed(name = "pokedex_api.pokemon_info.translated.metrics")
-    @ResponseMetered(name = "pokedex_api.pokemon_info.translated.http_responses")
+    @Timed(name = "pokemon_info.translated.metrics")
+    @ResponseMetered(name = "pokemon_info.translated.http_responses")
     @ApiOperation(value = "Retrieve translated pokemon information", response = PokemonInfoResponse.class)
     @ApiResponses(value =
             {@ApiResponse(code = HttpStatus.OK_200, message = "Translated Info Successfully Returned", response = PokemonInfoResponse.class),
