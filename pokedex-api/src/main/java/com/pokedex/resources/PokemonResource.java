@@ -27,7 +27,12 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class PokemonResource {
     private static final Logger logger = LoggerFactory.getLogger(PokemonResource.class);
-    @Inject private PokemonApi pokemonApi;
+    private PokemonApi pokemonApi;
+
+    @Inject
+    public PokemonResource(PokemonApi pokemonApi) {
+        this.pokemonApi = pokemonApi;
+    }
 
     @GET
     @Path("/{pokemon_name}")
