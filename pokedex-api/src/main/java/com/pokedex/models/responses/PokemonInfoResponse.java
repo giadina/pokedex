@@ -1,13 +1,11 @@
 package com.pokedex.models.responses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 
 
 @ApiModel(description = "Pokemon Info Model.")
 public class PokemonInfoResponse {
     private String name;
-    @JsonProperty("isLegendary")
     private boolean isLegendary;
     private String habitat;
     private String description;
@@ -27,7 +25,7 @@ public class PokemonInfoResponse {
         this.name = name;
     }
 
-    public boolean isLegendary() {
+    public boolean getIsLegendary() {
         return isLegendary;
     }
 

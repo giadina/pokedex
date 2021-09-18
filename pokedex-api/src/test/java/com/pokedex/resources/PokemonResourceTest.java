@@ -10,9 +10,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.junit.Test;
 
+import javax.ws.rs.NotFoundException;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PokemonResourceTest {
@@ -44,7 +46,7 @@ public class PokemonResourceTest {
 
         when(pokemonApi.getPokemonInfo(pokemonName)).thenReturn(Optional.of(basicPokemonInfoExpected));
         PokemonInfoResponse pokemonInfoFound = resource.retrieveBasicPokemonInfo(pokemonName);
-        Assertions.assertEquals(basicPokemonInfoExpected, pokemonInfoFound);
+        assertEquals(basicPokemonInfoExpected, pokemonInfoFound);
         verify(pokemonApi).getPokemonInfo(pokemonName);
     }
 
@@ -54,7 +56,7 @@ public class PokemonResourceTest {
 
         when(pokemonApi.getTranslatedPokemonInfo(pokemonName)).thenReturn(Optional.of(yodaTranslatedPokemonInfoExpected));
         PokemonInfoResponse pokemonInfoFound = resource.retrieveTranslatedPokemonInfo(pokemonName);
-        Assertions.assertEquals(yodaTranslatedPokemonInfoExpected, pokemonInfoFound);
+        assertEquals(yodaTranslatedPokemonInfoExpected, pokemonInfoFound);
         verify(pokemonApi).getTranslatedPokemonInfo(pokemonName);
     }
 
@@ -64,7 +66,27 @@ public class PokemonResourceTest {
 
         when(pokemonApi.getTranslatedPokemonInfo(pokemonName)).thenReturn(Optional.of(shakespeareTranslatedPokemonInfoExpected));
         PokemonInfoResponse pokemonInfoFound = resource.retrieveTranslatedPokemonInfo(pokemonName);
-        Assertions.assertEquals(shakespeareTranslatedPokemonInfoExpected, pokemonInfoFound);
+        assertEquals(shakespeareTranslatedPokemonInfoExpected, pokemonInfoFound);
+        verify(pokemonApi).getTranslatedPokemonInfo(pokemonName);
+    }
+
+    @Test
+    public void retrieveBasicPokemonInfoNotFound() {
+        String pokemonName = "fakePokemonName";
+
+        when(pokemonApi.getPokemonInfo(pokemonName)).thenThrow(new NotFoundException("The provided Pokemon doesn't exist"));
+        Throwable exception = assertThrows(NotFoundException.class,() -> resource.retrieveBasicPokemonInfo(pokemonName));
+        assertEquals("The provided Pokemon doesn't exist", exception.getMessage());
+        verify(pokemonApi).getPokemonInfo(pokemonName);
+    }
+
+    @Test
+    public void retrieveTranslatedPokemonInfoNotFound() {
+        String pokemonName = "fakePokemonName";
+
+        when(pokemonApi.getTranslatedPokemonInfo(pokemonName)).thenThrow(new NotFoundException("The provided Pokemon doesn't exist"));
+        Throwable exception = assertThrows(NotFoundException.class,() -> resource.retrieveTranslatedPokemonInfo(pokemonName));
+        assertEquals("The provided Pokemon doesn't exist", exception.getMessage());
         verify(pokemonApi).getTranslatedPokemonInfo(pokemonName);
     }
 

@@ -42,7 +42,7 @@ public class PokemonApiImpl implements PokemonApi {
         String description = pokemonInfo.getDescription();
         Translator translator;
 
-        if(habitatName.equals("cave") || pokemonInfo.isLegendary()) {
+        if(habitatName.equals("cave") || pokemonInfo.getIsLegendary()) {
             translator = TranslatorFactory.getTranslator(Constants.YODA_TRANSLATOR_NAME);
         } else {
             translator = TranslatorFactory.getTranslator(Constants.SHAKESPEARE_TRANSLATOR_NAME);
