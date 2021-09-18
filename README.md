@@ -21,6 +21,7 @@ How to start the Pokedex REST API service application
 3. Run `mvn clean install` to build your application
 4. Start application with `java -jar target/pokedex-api-1.0.0.jar server config.yml`
 5. Run `http://localhost:8080/pokemon/tangela` or the other endpoint provided in `PokemonResource.java`
+6. To see your application health enter url `http://localhost:8081/healthcheck`
 
 ### Docker
 
@@ -66,8 +67,8 @@ such as server side Latency and Availability in case of a production service.
 For simplicity, I'm reporting those metrics in **csv files every minute**, so they maintain a "Graphite-like" structure path,
 but for a production-ready application, if I had a Graphite instance, I would report them there and plot dashboards in Grafana.
 
-I'm also committing the /metrics folder with examples generated while I was testing the app so that you can have a look
-at them.  
+I'm also committing the [/metrics folder](https://github.com/giadina/pokedex/tree/master/metrics) with examples 
+generated while I was testing the app so that you can have a look at them.  
 
 You will find these annotations on each endpoint:
 - @Timed: this will instantiate a timer that will report how long it takes for the request to complete. 
