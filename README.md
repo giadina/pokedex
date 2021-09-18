@@ -5,7 +5,7 @@ This repository contains REST endpoints to fetch funny Pokemon information
 Developer Setup Guide
 ---
 
-- JDK 8+
+- JDK 8
 - [Maven Setup](https://maven.apache.org/install.html)
 
 When installing mvn make sure to `export PATH=/opt/apache-maven-3.8.2/bin:$PATH` (this is the location where your bin
@@ -63,13 +63,16 @@ Monitoring
 
 The two endpoints are collecting several metrics that can be used to monitor the health of the system, and compute SLIs/SLOs
 such as server side Latency and Availability in case of a production service.  
-For simplicity, I'm printing those metrics in the console every minute, but if I had a Graphite instance, I would report
-them there and plot dashboards in Grafana.
+For simplicity, I'm reporting those metrics in **csv files every minute**, so they maintain a "Graphite-like" structure path,
+but for a production-ready application, if I had a Graphite instance, I would report them there and plot dashboards in Grafana.
+
+I'm also committing the /metrics folder with examples generated while I was testing the app so that you can have a look
+at them.  
 
 You will find these annotations on each endpoint:
 - @Timed: this will instantiate a timer that will report how long it takes for the request to complete. 
-If you check the console while running the app, the reports can be found under this path:  
-  - **Timers**:
+If you check the /metrics folder that will be generated while running the app, the reports can be found under this path:  
+  - **Timers**: xxx.metrics.xxx.csv -> This is the formatted structure for better readability.
   ```
   com.pokedex.resources.PokemonResource.pokemon_info.basic.metrics
     count = 2
@@ -119,3 +122,11 @@ will look like this:
 ... same for other HTTP codes.
   
 
+Productionize it
+---
+
+This project is using the default configs added when bootstrapping a Dropwizard application.  
+They can be changed, by the way, to accommodate your needs, and they can be configured in the config.yml file.  
+
+You can find the full list of options in the [DropWizard documentation](https://www.dropwizard.io/en/latest/manual/configuration.html).  
+For example you can specify which port to bind to, the number of threads and so on.

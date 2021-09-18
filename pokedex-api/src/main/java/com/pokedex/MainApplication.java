@@ -1,6 +1,6 @@
 package com.pokedex;
 
-import com.codahale.metrics.ConsoleReporter;
+import com.codahale.metrics.CsvReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.SharedMetricRegistries;
 import com.google.inject.Guice;
@@ -16,11 +16,16 @@ import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.config.DefaultJaxrsScanner;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.PrintStream;
+import java.io.File;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class MainApplication extends Application<MainConfiguration> {
+
+    private static final Logger logger = LoggerFactory.getLogger(PokemonResource.class);
 
     public static void main(final String[] args) throws Exception {
         new MainApplication().run(args);
@@ -72,11 +77,16 @@ public class MainApplication extends Application<MainConfiguration> {
     private void startReport(MetricRegistry metricRegistry) {
         SharedMetricRegistries.add("pokemonResourceRegistry", metricRegistry);
 
-        ConsoleReporter reporter = ConsoleReporter.forRegistry(metricRegistry)
+        File dir = new File( "../metrics");
+        if(! dir.exists() && ! dir.mkdirs()) {
+            logger.error("Cannot create directory " + dir.getAbsoluteFile());
+        }
+        final CsvReporter reporter = CsvReporter.forRegistry(metricRegistry)
+                .formatFor(Locale.ENGLISH)
                 .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MILLISECONDS)
-                .outputTo(new PrintStream(System.out))
-                .build();
+                .build(new File("../metrics"));
+
         reporter.start(1, TimeUnit.MINUTES);
     }
 }
