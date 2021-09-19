@@ -8,6 +8,14 @@ public class FlavorText {
     private NamedApiResource language;
     private NamedApiResource version;
 
+    public FlavorText() {}
+
+    public FlavorText(String flavorText, NamedApiResource language, NamedApiResource version) {
+        this.flavorText = flavorText;
+        this.language = language;
+        this.version = version;
+    }
+
     public String getFlavorText() {
         return flavorText;
     }
