@@ -42,7 +42,6 @@ The project is organized following this structure:
 - **services**: Domain implementation; here is where the business logic is defined.
 - **resources**: API endpoints can be found here; each endpoint is executed on a resource, in this case `PokemonResource`.
 - **client**: Client code that accesses external HTTP services such us translations API and PokeAPI.
-- **health**: Health Checks
 - **MainApplication**: The application class.
 - **MainConfiguration**: The configuration class.
 
